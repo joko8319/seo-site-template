@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased;
+  }
+}
+
+/* Article content styling */
+@layer components {
+  .article-content {
+    @apply prose prose-lg max-w-none;
+    @apply prose-headings:font-heading prose-headings:font-bold;
+    @apply prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4;
+    @apply prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3;
+    @apply prose-p:text-gray-700 prose-p:leading-relaxed;
+    @apply prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline;
+    @apply prose-img:rounded-lg prose-img:shadow-md;
+    @apply prose-ul:my-4 prose-li:my-1;
+  }
+}
