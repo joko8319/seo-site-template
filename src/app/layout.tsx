@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getSiteInfo } from "@/lib/seo-engine";
-import { AdBanner, AdSenseScript } from "@/components/AdBanner";
+import { AdBanner } from "@/components/AdBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,12 +31,17 @@ export default async function RootLayout({
 
   return (
     <html lang="nl">
-      <head>
-        {siteInfo.adsEnabled && siteInfo.adsensePublisherId && (
-          <AdSenseScript publisherId={siteInfo.adsensePublisherId} />
-        )}
-      </head>
       <body className={`${inter.className} min-h-screen flex flex-col`}>
+        {/* Google AdSense Script */}
+        {siteInfo.adsEnabled && siteInfo.adsensePublisherId && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteInfo.adsensePublisherId}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
+
         <Header />
 
         {/* Header Ad */}
