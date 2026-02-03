@@ -39,7 +39,6 @@ export function AdBanner({
             className="w-full h-auto rounded-lg"
           />
         </a>
-        <span className="text-xs text-gray-400 mt-1 block">Advertentie</span>
       </div>
     );
   }
@@ -77,7 +76,6 @@ export function AdBanner({
           data-ad-format={config.format}
           data-full-width-responsive="true"
         />
-        <span className="text-xs text-gray-400 mt-1 block">Advertentie</span>
       </div>
     );
   }
