@@ -2,7 +2,8 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getArticleBySlug, getAllArticleSlugs } from "@/lib/seo-engine";
+import { getArticleBySlug, getAllArticleSlugs, getSiteInfo } from "@/lib/seo-engine";
+import { AdBanner } from "@/components/AdBanner";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -47,7 +48,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const [article, siteInfo] = await Promise.all([
+    getArticleBySlug(slug),
+    getSiteInfo(),
+  ]);
 
   if (!article) {
     notFound();
@@ -116,6 +120,18 @@ export default async function ArticlePage({ params }: Props) {
           className="article-content"
           dangerouslySetInnerHTML={{ __html: article.content }}
         />
+      )}
+
+      {/* Ad after content */}
+      {siteInfo.adsEnabled && (
+        <div className="my-8">
+          <AdBanner
+            position="content"
+            adsensePublisherId={siteInfo.adsensePublisherId}
+            customAds={siteInfo.customAds}
+            className="max-w-2xl mx-auto"
+          />
+        </div>
       )}
 
       {/* Tags/Keywords */}

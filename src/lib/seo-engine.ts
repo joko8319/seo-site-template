@@ -37,6 +37,14 @@ interface Cluster {
   articleCount: number;
 }
 
+interface CustomAd {
+  id: string;
+  name: string;
+  imageUrl: string;
+  linkUrl: string;
+  position: string;
+}
+
 interface SiteInfo {
   id: string;
   name: string;
@@ -46,6 +54,11 @@ interface SiteInfo {
   heroSubtitle: string;
   contactEmail: string;
   primaryColor: string;
+  // Advertising
+  adsensePublisherId: string;
+  adsEnabled: boolean;
+  customAds: CustomAd[];
+  // Stats
   articleCount: number;
   clusterCount: number;
 }
@@ -119,6 +132,9 @@ export async function getSiteInfo(): Promise<SiteInfo> {
       heroSubtitle: "Welkom op mijn website",
       contactEmail: "info@example.com",
       primaryColor: "blue",
+      adsensePublisherId: "",
+      adsEnabled: false,
+      customAds: [],
       articleCount: 0,
       clusterCount: 0,
     };
