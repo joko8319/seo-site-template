@@ -3,17 +3,22 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { getSiteInfo } from "@/lib/seo-engine";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: {
-    default: process.env.SITE_NAME || "My Site",
-    template: `%s | ${process.env.SITE_NAME || "My Site"}`,
-  },
-  description: process.env.SITE_DESCRIPTION || "Welcome to my site",
-  metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteInfo = await getSiteInfo();
+
+  return {
+    title: {
+      default: siteInfo.name,
+      template: `%s | ${siteInfo.name}`,
+    },
+    description: siteInfo.description,
+    metadataBase: new URL(siteInfo.domain ? `https://${siteInfo.domain}` : "http://localhost:3000"),
+  };
+}
 
 export default function RootLayout({
   children,

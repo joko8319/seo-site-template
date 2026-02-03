@@ -1,12 +1,11 @@
-import { getArticles } from "@/lib/seo-engine";
+import { getArticles, getSiteInfo } from "@/lib/seo-engine";
 import { ArticleCard } from "@/components/ArticleCard";
 import Link from "next/link";
 
 export default async function HomePage() {
-  const siteName = process.env.SITE_NAME || "My Site";
-  const siteDescription = process.env.SITE_DESCRIPTION || "Welcome to my site";
+  // Fetch site info and latest articles
+  const siteInfo = await getSiteInfo();
 
-  // Fetch latest articles
   let articles: any[] = [];
   try {
     const result = await getArticles({ limit: 6 });
@@ -21,10 +20,10 @@ export default async function HomePage() {
       <section className="bg-gradient-to-br from-primary-600 to-primary-800 text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            {siteName}
+            {siteInfo.heroTitle}
           </h1>
           <p className="text-xl text-primary-100 max-w-2xl mb-8">
-            {siteDescription}
+            {siteInfo.heroSubtitle}
           </p>
           <Link
             href="/artikelen"

@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { getSiteInfo } from "@/lib/seo-engine";
 
-export function Footer() {
-  const siteName = process.env.SITE_NAME || "My Site";
+export async function Footer() {
+  const siteInfo = await getSiteInfo();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -13,13 +14,13 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">
-                  {siteName.charAt(0)}
+                  {siteInfo.name.charAt(0)}
                 </span>
               </div>
-              <span className="font-semibold text-white">{siteName}</span>
+              <span className="font-semibold text-white">{siteInfo.name}</span>
             </div>
             <p className="text-sm">
-              {process.env.SITE_DESCRIPTION || "Your site description here."}
+              {siteInfo.description}
             </p>
           </div>
 
@@ -37,7 +38,6 @@ export function Footer() {
                   Artikelen
                 </Link>
               </li>
-              {/* Add more links as needed */}
             </ul>
           </div>
 
@@ -45,14 +45,13 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-sm">
-              {/* Add contact info as needed */}
-              <li>info@example.com</li>
+              <li>{siteInfo.contactEmail}</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
-          <p>&copy; {currentYear} {siteName}. Alle rechten voorbehouden.</p>
+          <p>&copy; {currentYear} {siteInfo.name}. Alle rechten voorbehouden.</p>
         </div>
       </div>
     </footer>

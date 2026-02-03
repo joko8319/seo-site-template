@@ -41,6 +41,11 @@ interface SiteInfo {
   id: string;
   name: string;
   domain: string;
+  description: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  contactEmail: string;
+  primaryColor: string;
   articleCount: number;
   clusterCount: number;
 }
@@ -101,7 +106,23 @@ export async function getClusters(): Promise<{ clusters: Cluster[] }> {
  * Get site information
  */
 export async function getSiteInfo(): Promise<SiteInfo> {
-  return fetchFromAPI("/site");
+  try {
+    return await fetchFromAPI("/site");
+  } catch {
+    // Return defaults if API fails
+    return {
+      id: "",
+      name: "Mijn Website",
+      domain: "",
+      description: "Welkom op mijn website",
+      heroTitle: "Mijn Website",
+      heroSubtitle: "Welkom op mijn website",
+      contactEmail: "info@example.com",
+      primaryColor: "blue",
+      articleCount: 0,
+      clusterCount: 0,
+    };
+  }
 }
 
 /**

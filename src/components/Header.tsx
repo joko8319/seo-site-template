@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { getSiteInfo } from "@/lib/seo-engine";
 
-export function Header() {
-  const siteName = process.env.SITE_NAME || "My Site";
+export async function Header() {
+  const siteInfo = await getSiteInfo();
+  const siteName = siteInfo.name;
 
   return (
     <header className="bg-white border-b border-gray-200">
