@@ -130,6 +130,7 @@ export default async function ArticlePage({ params }: Props) {
         <div className="my-8">
           <AdBanner
             position="content"
+            pageType="article"
             adsensePublisherId={siteInfo.adsensePublisherId}
             customAds={siteInfo.customAds}
             className="max-w-2xl mx-auto"
@@ -186,6 +187,7 @@ export default async function ArticlePage({ params }: Props) {
             <div className="sticky top-8">
               <AdBanner
                 position="sidebar"
+                pageType="article"
                 adsensePublisherId={siteInfo.adsensePublisherId}
                 customAds={siteInfo.customAds}
               />

@@ -5,7 +5,6 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getSiteInfo } from "@/lib/seo-engine";
-import { AdBanner } from "@/components/AdBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,31 +42,7 @@ export default async function RootLayout({
         )}
 
         <Header />
-
-        {/* Header Ad */}
-        {siteInfo.adsEnabled && (
-          <div className="max-w-6xl mx-auto px-4 py-2 w-full">
-            <AdBanner
-              position="header"
-              adsensePublisherId={siteInfo.adsensePublisherId}
-              customAds={siteInfo.customAds}
-            />
-          </div>
-        )}
-
         <main className="flex-1">{children}</main>
-
-        {/* Footer Ad */}
-        {siteInfo.adsEnabled && (
-          <div className="max-w-6xl mx-auto px-4 py-4 w-full">
-            <AdBanner
-              position="footer"
-              adsensePublisherId={siteInfo.adsensePublisherId}
-              customAds={siteInfo.customAds}
-            />
-          </div>
-        )}
-
         <Footer />
       </body>
     </html>

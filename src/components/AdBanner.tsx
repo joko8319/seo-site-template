@@ -4,10 +4,14 @@ interface CustomAd {
   imageUrl: string;
   linkUrl: string;
   position: string;
+  showOnHomepage?: boolean;
+  showOnArticles?: boolean;
+  showOnArticlesList?: boolean;
 }
 
 interface AdBannerProps {
   position: "header" | "sidebar" | "content" | "footer";
+  pageType?: "homepage" | "article" | "articlesList";
   adsensePublisherId?: string;
   adsenseSlotId?: string;
   customAds?: CustomAd[];
@@ -16,12 +20,22 @@ interface AdBannerProps {
 
 export function AdBanner({
   position,
+  pageType = "homepage",
   adsensePublisherId,
   customAds = [],
   className = "",
 }: AdBannerProps) {
-  // Find custom ad for this position
-  const customAd = customAds.find((ad) => ad.position === position);
+  // Find custom ad for this position that should show on this page type
+  const customAd = customAds.find((ad) => {
+    if (ad.position !== position) return false;
+
+    // Check visibility based on page type
+    if (pageType === "homepage" && ad.showOnHomepage === false) return false;
+    if (pageType === "article" && ad.showOnArticles === false) return false;
+    if (pageType === "articlesList" && ad.showOnArticlesList === false) return false;
+
+    return true;
+  });
 
   // If there's a custom ad, show it
   if (customAd) {

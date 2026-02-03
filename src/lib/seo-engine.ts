@@ -43,6 +43,9 @@ interface CustomAd {
   imageUrl: string;
   linkUrl: string;
   position: string;
+  showOnHomepage: boolean;
+  showOnArticles: boolean;
+  showOnArticlesList: boolean;
 }
 
 interface SiteInfo {

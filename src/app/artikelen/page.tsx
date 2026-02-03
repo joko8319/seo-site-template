@@ -1,6 +1,7 @@
 import { Metadata } from "next";
-import { getArticles } from "@/lib/seo-engine";
+import { getArticles, getSiteInfo } from "@/lib/seo-engine";
 import { ArticleCard } from "@/components/ArticleCard";
+import { AdBanner } from "@/components/AdBanner";
 
 export const metadata: Metadata = {
   title: "Artikelen",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ArticlesPage() {
+  const siteInfo = await getSiteInfo();
   let articles: any[] = [];
   let total = 0;
 
@@ -21,6 +23,18 @@ export default async function ArticlesPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Header Ad */}
+      {siteInfo.adsEnabled && (
+        <div className="mb-8">
+          <AdBanner
+            position="header"
+            pageType="articlesList"
+            adsensePublisherId={siteInfo.adsensePublisherId}
+            customAds={siteInfo.customAds}
+          />
+        </div>
+      )}
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Artikelen</h1>
         <p className="text-gray-600">
@@ -60,6 +74,18 @@ export default async function ArticlesPage() {
           <p className="text-sm text-gray-400 mt-2">
             Publiceer artikelen in je SEO Engine om ze hier te tonen.
           </p>
+        </div>
+      )}
+
+      {/* Footer Ad */}
+      {siteInfo.adsEnabled && (
+        <div className="mt-12">
+          <AdBanner
+            position="footer"
+            pageType="articlesList"
+            adsensePublisherId={siteInfo.adsensePublisherId}
+            customAds={siteInfo.customAds}
+          />
         </div>
       )}
     </div>

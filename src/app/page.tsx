@@ -1,5 +1,6 @@
 import { getArticles, getSiteInfo } from "@/lib/seo-engine";
 import { ArticleCard } from "@/components/ArticleCard";
+import { AdBanner } from "@/components/AdBanner";
 import Link from "next/link";
 
 export default async function HomePage() {
@@ -47,6 +48,18 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Header Ad */}
+      {siteInfo.adsEnabled && (
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+          <AdBanner
+            position="header"
+            pageType="homepage"
+            adsensePublisherId={siteInfo.adsensePublisherId}
+            customAds={siteInfo.customAds}
+          />
+        </div>
+      )}
+
       {/* Latest Articles */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex items-center justify-between mb-8">
@@ -85,6 +98,18 @@ export default async function HomePage() {
           </div>
         )}
       </section>
+
+      {/* Footer Ad */}
+      {siteInfo.adsEnabled && (
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <AdBanner
+            position="footer"
+            pageType="homepage"
+            adsensePublisherId={siteInfo.adsensePublisherId}
+            customAds={siteInfo.customAds}
+          />
+        </div>
+      )}
     </div>
   );
 }
