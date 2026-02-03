@@ -66,8 +66,11 @@ export default async function ArticlePage({ params }: Props) {
     : null;
 
   return (
-    <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Breadcrumb */}
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Main content */}
+        <article className="flex-1 min-w-0">
+          {/* Breadcrumb */}
       <nav className="mb-8">
         <ol className="flex items-center gap-2 text-sm text-gray-500">
           <li>
@@ -175,6 +178,21 @@ export default async function ArticlePage({ params }: Props) {
           Terug naar artikelen
         </Link>
       </div>
-    </article>
+        </article>
+
+        {/* Sidebar */}
+        {siteInfo.adsEnabled && (
+          <aside className="lg:w-80 flex-shrink-0">
+            <div className="sticky top-8">
+              <AdBanner
+                position="sidebar"
+                adsensePublisherId={siteInfo.adsensePublisherId}
+                customAds={siteInfo.customAds}
+              />
+            </div>
+          </aside>
+        )}
+      </div>
+    </div>
   );
 }
