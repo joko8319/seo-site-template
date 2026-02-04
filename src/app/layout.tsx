@@ -18,6 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: siteInfo.description,
     metadataBase: new URL(siteInfo.domain ? `https://${siteInfo.domain}` : "http://localhost:3000"),
+    icons: siteInfo.faviconUrl ? {
+      icon: siteInfo.faviconUrl,
+      apple: siteInfo.faviconUrl,
+    } : undefined,
   };
 }
 

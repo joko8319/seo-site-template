@@ -57,6 +57,9 @@ interface SiteInfo {
   heroSubtitle: string;
   contactEmail: string;
   primaryColor: string;
+  // Branding
+  logoUrl: string;
+  faviconUrl: string;
   // Advertising
   adsensePublisherId: string;
   adsEnabled: boolean;
@@ -135,6 +138,8 @@ export async function getSiteInfo(): Promise<SiteInfo> {
       heroSubtitle: "Welkom op mijn website",
       contactEmail: "info@example.com",
       primaryColor: "blue",
+      logoUrl: "",
+      faviconUrl: "",
       adsensePublisherId: "",
       adsEnabled: false,
       customAds: [],

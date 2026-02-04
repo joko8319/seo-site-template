@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getSiteInfo } from "@/lib/seo-engine";
 
 export async function Header() {
   const siteInfo = await getSiteInfo();
   const siteName = siteInfo.name;
+  const logoUrl = siteInfo.logoUrl;
 
   return (
     <header className="bg-white border-b border-gray-200">
@@ -11,12 +13,24 @@ export async function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">
-                {siteName.charAt(0)}
-              </span>
-            </div>
-            <span className="font-semibold text-gray-900">{siteName}</span>
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt={siteName}
+                width={120}
+                height={40}
+                className="h-8 w-auto object-contain"
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">
+                    {siteName.charAt(0)}
+                  </span>
+                </div>
+                <span className="font-semibold text-gray-900">{siteName}</span>
+              </>
+            )}
           </Link>
 
           {/* Navigation */}
