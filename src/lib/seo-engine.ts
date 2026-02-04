@@ -60,6 +60,9 @@ interface SiteInfo {
   // Branding
   logoUrl: string;
   faviconUrl: string;
+  // Analytics
+  googleAnalyticsId: string;
+  googleTagManagerId: string;
   // Advertising
   adsensePublisherId: string;
   adsEnabled: boolean;
@@ -140,6 +143,8 @@ export async function getSiteInfo(): Promise<SiteInfo> {
       primaryColor: "blue",
       logoUrl: "",
       faviconUrl: "",
+      googleAnalyticsId: "",
+      googleTagManagerId: "",
       adsensePublisherId: "",
       adsEnabled: false,
       customAds: [],

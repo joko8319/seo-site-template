@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getSiteInfo } from "@/lib/seo-engine";
 import { OrganizationSchema, WebSiteSchema } from "@/components/StructuredData";
+import { Analytics, GTMNoScript } from "@/components/Analytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -65,6 +66,15 @@ export default async function RootLayout({
   return (
     <html lang="nl">
       <body className={`${inter.className} min-h-screen flex flex-col`}>
+        {/* Google Tag Manager (noscript) */}
+        <GTMNoScript googleTagManagerId={siteInfo.googleTagManagerId || undefined} />
+
+        {/* Analytics */}
+        <Analytics
+          googleAnalyticsId={siteInfo.googleAnalyticsId || undefined}
+          googleTagManagerId={siteInfo.googleTagManagerId || undefined}
+        />
+
         {/* Structured Data */}
         <OrganizationSchema
           name={siteInfo.name}
