@@ -9,6 +9,7 @@ import { ReadingTime } from "@/components/ReadingTime";
 import { SocialShare } from "@/components/SocialShare";
 import { RelatedArticles } from "@/components/RelatedArticles";
 import { TableOfContents, addHeadingIds } from "@/components/TableOfContents";
+import { AuthorBox } from "@/components/AuthorBox";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -100,6 +101,14 @@ export default async function ArticlePage({ params }: Props) {
       })
     : null;
 
+  const formattedUpdatedDate = article.updatedAt && article.updatedAt !== article.publishedAt
+    ? new Date(article.updatedAt).toLocaleDateString("nl-NL", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
+
   // Add IDs to headings for table of contents
   const contentWithIds = article.content ? addHeadingIds(article.content) : "";
 
@@ -113,6 +122,7 @@ export default async function ArticlePage({ params }: Props) {
         imageUrl={article.featuredImage}
         publishedAt={article.publishedAt}
         updatedAt={article.updatedAt}
+        authorName={siteInfo.authorName || undefined}
         siteName={siteInfo.name}
       />
       <BreadcrumbSchema
@@ -148,9 +158,15 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* Header */}
       <header className="mb-8">
-        <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
-          {formattedDate && <span>{formattedDate}</span>}
-          {formattedDate && article.content && <span>•</span>}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 mb-3">
+          {formattedDate && <span>Gepubliceerd: {formattedDate}</span>}
+          {formattedUpdatedDate && (
+            <>
+              <span>•</span>
+              <span>Bijgewerkt: {formattedUpdatedDate}</span>
+            </>
+          )}
+          {(formattedDate || formattedUpdatedDate) && article.content && <span>•</span>}
           {article.content && <ReadingTime content={article.content} />}
         </div>
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -209,6 +225,17 @@ export default async function ArticlePage({ params }: Props) {
         description={article.excerpt}
         className="mt-8 pt-8 border-t border-gray-200"
       />
+
+      {/* Author Box */}
+      {siteInfo.authorName && (
+        <AuthorBox
+          name={siteInfo.authorName}
+          bio={siteInfo.authorBio}
+          image={siteInfo.authorImage}
+          socialLinks={siteInfo.authorSocialLinks}
+          className="mt-8"
+        />
+      )}
 
       {/* Tags/Keywords */}
       {article.keywords && article.keywords.length > 0 && (

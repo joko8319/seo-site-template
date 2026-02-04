@@ -63,6 +63,15 @@ interface SiteInfo {
   // Analytics
   googleAnalyticsId: string;
   googleTagManagerId: string;
+  // Author
+  authorName: string;
+  authorBio: string;
+  authorImage: string;
+  authorSocialLinks: {
+    twitter?: string;
+    linkedin?: string;
+    website?: string;
+  };
   // Advertising
   adsensePublisherId: string;
   adsEnabled: boolean;
@@ -145,6 +154,10 @@ export async function getSiteInfo(): Promise<SiteInfo> {
       faviconUrl: "",
       googleAnalyticsId: "",
       googleTagManagerId: "",
+      authorName: "",
+      authorBio: "",
+      authorImage: "",
+      authorSocialLinks: {},
       adsensePublisherId: "",
       adsEnabled: false,
       customAds: [],
