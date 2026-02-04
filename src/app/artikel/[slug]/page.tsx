@@ -2,8 +2,13 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getArticleBySlug, getAllArticleSlugs, getSiteInfo } from "@/lib/seo-engine";
+import { getArticleBySlug, getAllArticleSlugs, getSiteInfo, getRelatedArticles } from "@/lib/seo-engine";
 import { AdBanner } from "@/components/AdBanner";
+import { ArticleSchema, BreadcrumbSchema } from "@/components/StructuredData";
+import { ReadingTime } from "@/components/ReadingTime";
+import { SocialShare } from "@/components/SocialShare";
+import { RelatedArticles } from "@/components/RelatedArticles";
+import { TableOfContents, addHeadingIds } from "@/components/TableOfContents";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -22,7 +27,10 @@ export async function generateStaticParams() {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const [article, siteInfo] = await Promise.all([
+    getArticleBySlug(slug),
+    getSiteInfo(),
+  ]);
 
   if (!article) {
     return {
@@ -30,17 +38,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const baseUrl = siteInfo.domain ? `https://${siteInfo.domain}` : "http://localhost:3000";
+  const articleUrl = `${baseUrl}/artikel/${slug}`;
+
   return {
     title: article.metaTitle || article.title,
     description: article.metaDescription || article.excerpt,
     keywords: article.keywords?.join(", "),
+    alternates: {
+      canonical: articleUrl,
+    },
     openGraph: {
       title: article.metaTitle || article.title,
       description: article.metaDescription || article.excerpt,
       type: "article",
+      url: articleUrl,
+      siteName: siteInfo.name,
+      locale: "nl_NL",
       publishedTime: article.publishedAt
         ? new Date(article.publishedAt).toISOString()
         : undefined,
+      modifiedTime: article.updatedAt
+        ? new Date(article.updatedAt).toISOString()
+        : undefined,
+      images: article.featuredImage ? [{
+        url: article.featuredImage,
+        alt: article.title,
+      }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.metaTitle || article.title,
+      description: article.metaDescription || article.excerpt,
       images: article.featuredImage ? [article.featuredImage] : undefined,
     },
   };
@@ -57,6 +86,12 @@ export default async function ArticlePage({ params }: Props) {
     notFound();
   }
 
+  // Fetch related articles
+  const relatedArticles = await getRelatedArticles(slug, article.clusterId);
+
+  const baseUrl = siteInfo.domain ? `https://${siteInfo.domain}` : "http://localhost:3000";
+  const articleUrl = `${baseUrl}/artikel/${slug}`;
+
   const formattedDate = article.publishedAt
     ? new Date(article.publishedAt).toLocaleDateString("nl-NL", {
         year: "numeric",
@@ -65,8 +100,30 @@ export default async function ArticlePage({ params }: Props) {
       })
     : null;
 
+  // Add IDs to headings for table of contents
+  const contentWithIds = article.content ? addHeadingIds(article.content) : "";
+
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+      {/* Structured Data */}
+      <ArticleSchema
+        title={article.title}
+        description={article.metaDescription || article.excerpt}
+        url={articleUrl}
+        imageUrl={article.featuredImage}
+        publishedAt={article.publishedAt}
+        updatedAt={article.updatedAt}
+        siteName={siteInfo.name}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: baseUrl },
+          { name: "Artikelen", url: `${baseUrl}/artikelen` },
+          { name: article.title, url: articleUrl },
+        ]}
+      />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Main content */}
         <article className="flex-1 min-w-0">
@@ -91,9 +148,11 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* Header */}
       <header className="mb-8">
-        {formattedDate && (
-          <p className="text-sm text-gray-500 mb-2">{formattedDate}</p>
-        )}
+        <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
+          {formattedDate && <span>{formattedDate}</span>}
+          {formattedDate && article.content && <span>•</span>}
+          {article.content && <ReadingTime content={article.content} />}
+        </div>
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           {article.title}
         </h1>
@@ -117,11 +176,16 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       )}
 
+      {/* Table of Contents */}
+      {contentWithIds && (
+        <TableOfContents content={contentWithIds} className="mb-8" />
+      )}
+
       {/* Content */}
-      {article.content && (
+      {contentWithIds && (
         <div
           className="article-content"
-          dangerouslySetInnerHTML={{ __html: article.content }}
+          dangerouslySetInnerHTML={{ __html: contentWithIds }}
         />
       )}
 
@@ -138,9 +202,17 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       )}
 
+      {/* Social Share */}
+      <SocialShare
+        url={articleUrl}
+        title={article.title}
+        description={article.excerpt}
+        className="mt-8 pt-8 border-t border-gray-200"
+      />
+
       {/* Tags/Keywords */}
       {article.keywords && article.keywords.length > 0 && (
-        <div className="mt-12 pt-8 border-t border-gray-200">
+        <div className="mt-8 pt-8 border-t border-gray-200">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
             Gerelateerde onderwerpen
           </h2>
@@ -156,6 +228,9 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         </div>
       )}
+
+      {/* Related Articles */}
+      <RelatedArticles articles={relatedArticles} currentSlug={slug} />
 
       {/* Back link */}
       <div className="mt-12">
@@ -196,5 +271,6 @@ export default async function ArticlePage({ params }: Props) {
         )}
       </div>
     </div>
+    </>
   );
 }

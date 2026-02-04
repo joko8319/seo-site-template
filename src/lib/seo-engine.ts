@@ -156,3 +156,26 @@ export async function getAllArticleSlugs(): Promise<string[]> {
   const { articles } = await getArticles({ limit: 1000 });
   return articles.map((article) => article.slug);
 }
+
+/**
+ * Get related articles (same cluster or recent)
+ */
+export async function getRelatedArticles(
+  currentSlug: string,
+  clusterId?: string,
+  limit: number = 3
+): Promise<Article[]> {
+  try {
+    // If we have a cluster, get articles from the same cluster
+    if (clusterId) {
+      const { articles } = await getArticles({ clusterId, limit: limit + 1 });
+      return articles.filter((a) => a.slug !== currentSlug).slice(0, limit);
+    }
+
+    // Otherwise, get recent articles
+    const { articles } = await getArticles({ limit: limit + 1 });
+    return articles.filter((a) => a.slug !== currentSlug).slice(0, limit);
+  } catch {
+    return [];
+  }
+}
