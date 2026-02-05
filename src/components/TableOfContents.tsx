@@ -60,20 +60,20 @@ export function TableOfContents({ content, className = "" }: TableOfContentsProp
   if (headings.length < 3) return null;
 
   return (
-    <nav className={`bg-gray-50 rounded-lg p-4 ${className}`}>
-      <h2 className="font-semibold text-gray-900 mb-3">Inhoudsopgave</h2>
-      <ul className="space-y-2">
+    <nav className={`bg-gray-50 border border-gray-200 rounded-lg p-6 ${className}`}>
+      <h2 className="font-bold text-gray-900 text-lg mb-4">Inhoudsopgave</h2>
+      <ul className="space-y-3">
         {headings.map((heading) => (
           <li
             key={heading.id}
-            style={{ paddingLeft: `${(heading.level - 2) * 12}px` }}
+            style={{ paddingLeft: `${(heading.level - 2) * 16}px` }}
           >
             <a
               href={`#${heading.id}`}
-              className={`text-sm hover:text-primary-600 transition-colors block ${
+              className={`text-base text-primary-600 hover:text-primary-800 hover:underline transition-colors block ${
                 activeId === heading.id
-                  ? "text-primary-600 font-medium"
-                  : "text-gray-600"
+                  ? "font-semibold"
+                  : ""
               }`}
               onClick={(e) => {
                 e.preventDefault();
