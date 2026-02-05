@@ -25,4 +25,47 @@
     @apply prose-img:rounded-lg prose-img:shadow-md;
     @apply prose-ul:my-4 prose-li:my-1;
   }
+
+  /* Quick answer box — highlighted answer at the top of articles */
+  .article-content .quick-answer {
+    @apply bg-primary-50 border-l-4 border-primary-500 rounded-r-lg p-5 my-6;
+  }
+  .article-content .quick-answer strong:first-child {
+    @apply text-primary-700 text-lg;
+  }
+
+  /* Key takeaways — summary box */
+  .article-content .key-takeaways {
+    @apply bg-gray-50 border border-gray-200 rounded-lg p-5 my-6;
+  }
+  .article-content .key-takeaways h2 {
+    @apply text-lg mt-0 mb-3 pb-2 border-b border-gray-200;
+  }
+  .article-content .key-takeaways ul {
+    @apply my-0;
+  }
+
+  /* CTA box — call to action */
+  .article-content .cta-box {
+    @apply bg-primary-50 border border-primary-200 rounded-lg p-5 my-6 text-center;
+  }
+  .article-content .cta-box strong {
+    @apply text-primary-700 text-lg block mb-2;
+  }
+
+  /* Article images */
+  .article-content .article-image {
+    @apply my-6;
+  }
+  .article-content .article-image img {
+    @apply rounded-lg shadow-md w-full;
+  }
+  .article-content .article-image figcaption {
+    @apply text-sm text-gray-500 text-center mt-2 italic;
+  }
+
+  /* Infographic blocks */
+  .article-content .infographic {
+    @apply my-8;
+  }
 }

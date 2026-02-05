@@ -21,7 +21,7 @@ export function TableOfContents({ content, className = "" }: TableOfContentsProp
     // Parse headings from HTML content
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, "text/html");
-    const elements = doc.querySelectorAll("h2, h3");
+    const elements = doc.querySelectorAll("h2");
 
     const items: TOCItem[] = [];
     elements.forEach((el, index) => {
