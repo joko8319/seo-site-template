@@ -8,7 +8,8 @@ import { ArticleSchema, BreadcrumbSchema } from "@/components/StructuredData";
 import { ReadingTime } from "@/components/ReadingTime";
 import { SocialShare } from "@/components/SocialShare";
 import { RelatedArticles } from "@/components/RelatedArticles";
-import { TableOfContents, addHeadingIds } from "@/components/TableOfContents";
+import { TableOfContents } from "@/components/TableOfContents";
+import { addHeadingIds } from "@/lib/heading-utils";
 import { AuthorBox } from "@/components/AuthorBox";
 
 interface Props {
