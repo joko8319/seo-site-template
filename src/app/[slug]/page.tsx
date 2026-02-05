@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const baseUrl = siteInfo.domain ? `https://${siteInfo.domain}` : "http://localhost:3000";
-  const articleUrl = `${baseUrl}/artikel/${slug}`;
+  const articleUrl = `${baseUrl}/${slug}`;
 
   return {
     title: article.metaTitle || article.title,
@@ -91,7 +91,7 @@ export default async function ArticlePage({ params }: Props) {
   const relatedArticles = await getRelatedArticles(slug, article.clusterId);
 
   const baseUrl = siteInfo.domain ? `https://${siteInfo.domain}` : "http://localhost:3000";
-  const articleUrl = `${baseUrl}/artikel/${slug}`;
+  const articleUrl = `${baseUrl}/${slug}`;
 
   const formattedDate = article.publishedAt
     ? new Date(article.publishedAt).toLocaleDateString("nl-NL", {

@@ -15,8 +15,8 @@ export async function GET() {
       return `
     <item>
       <title><![CDATA[${article.title}]]></title>
-      <link>${baseUrl}/artikel/${article.slug}</link>
-      <guid isPermaLink="true">${baseUrl}/artikel/${article.slug}</guid>
+      <link>${baseUrl}/${article.slug}</link>
+      <guid isPermaLink="true">${baseUrl}/${article.slug}</guid>
       <description><![CDATA[${article.excerpt || article.title}]]></description>
       <pubDate>${pubDate}</pubDate>
       ${article.featuredImage ? `<enclosure url="${article.featuredImage}" type="image/jpeg" />` : ""}

@@ -31,7 +31,7 @@ export function RelatedArticles({ articles, currentSlug }: RelatedArticlesProps)
         {related.map((article) => (
           <Link
             key={article.id}
-            href={`/artikel/${article.slug}`}
+            href={`/${article.slug}`}
             className="group"
           >
             <article className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">

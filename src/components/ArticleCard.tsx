@@ -29,7 +29,7 @@ export function ArticleCard({
   return (
     <article className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
       {featuredImage && (
-        <Link href={`/artikel/${slug}`}>
+        <Link href={`/${slug}`}>
           <div className="relative aspect-video">
             <Image
               src={featuredImage}
@@ -45,7 +45,7 @@ export function ArticleCard({
           <p className="text-sm text-gray-500 mb-2">{formattedDate}</p>
         )}
         <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          <Link href={`/artikel/${slug}`} className="hover:text-primary-600 transition-colors">
+          <Link href={`/${slug}`} className="hover:text-primary-600 transition-colors">
             {title}
           </Link>
         </h2>
@@ -53,7 +53,7 @@ export function ArticleCard({
           <p className="text-gray-600 line-clamp-3">{excerpt}</p>
         )}
         <Link
-          href={`/artikel/${slug}`}
+          href={`/${slug}`}
           className="inline-flex items-center gap-1 mt-4 text-primary-600 font-medium hover:gap-2 transition-all"
         >
           Lees meer
