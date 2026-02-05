@@ -51,6 +51,7 @@ export default async function ArticlesPage() {
               slug={article.slug}
               excerpt={article.excerpt}
               featuredImage={article.featuredImage}
+              featuredImageAlt={article.featuredImageAlt}
               publishedAt={article.publishedAt}
             />
           ))}

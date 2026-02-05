@@ -83,6 +83,7 @@ export default async function HomePage() {
                 slug={article.slug}
                 excerpt={article.excerpt}
                 featuredImage={article.featuredImage}
+                featuredImageAlt={article.featuredImageAlt}
                 publishedAt={article.publishedAt}
               />
             ))}

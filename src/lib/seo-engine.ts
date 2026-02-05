@@ -17,6 +17,7 @@ interface Article {
   focusKeyword?: string;
   keywords?: string[];
   featuredImage?: string;
+  featuredImageAlt?: string;
   publishedAt?: number;
   updatedAt?: number;
   clusterId?: string;

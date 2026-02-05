@@ -6,6 +6,7 @@ interface ArticleCardProps {
   slug: string;
   excerpt?: string;
   featuredImage?: string;
+  featuredImageAlt?: string;
   publishedAt?: number;
 }
 
@@ -14,6 +15,7 @@ export function ArticleCard({
   slug,
   excerpt,
   featuredImage,
+  featuredImageAlt,
   publishedAt,
 }: ArticleCardProps) {
   const formattedDate = publishedAt
@@ -31,7 +33,7 @@ export function ArticleCard({
           <div className="relative aspect-video">
             <Image
               src={featuredImage}
-              alt={title}
+              alt={featuredImageAlt || title}
               fill
               className="object-cover"
             />

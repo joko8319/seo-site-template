@@ -71,6 +71,7 @@ export default async function SearchPage({ searchParams }: Props) {
               slug={article.slug}
               excerpt={article.excerpt}
               featuredImage={article.featuredImage}
+              featuredImageAlt={article.featuredImageAlt}
               publishedAt={article.publishedAt}
             />
           ))}

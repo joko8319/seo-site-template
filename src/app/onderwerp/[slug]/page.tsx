@@ -118,6 +118,7 @@ export default async function ClusterPage({ params }: Props) {
                 slug={article.slug}
                 excerpt={article.excerpt}
                 featuredImage={article.featuredImage}
+                featuredImageAlt={article.featuredImageAlt}
                 publishedAt={article.publishedAt}
               />
             ))}

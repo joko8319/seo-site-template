@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         : undefined,
       images: article.featuredImage ? [{
         url: article.featuredImage,
-        alt: article.title,
+        alt: article.featuredImageAlt || article.title,
       }] : undefined,
     },
     twitter: {
@@ -184,7 +184,7 @@ export default async function ArticlePage({ params }: Props) {
         <div className="relative aspect-video mb-8 rounded-xl overflow-hidden">
           <Image
             src={article.featuredImage}
-            alt={article.title}
+            alt={article.featuredImageAlt || article.title}
             fill
             className="object-cover"
             priority
