@@ -113,6 +113,16 @@ export default async function ArticlePage({ params }: Props) {
   // Add IDs to headings for table of contents
   const contentWithIds = article.content ? addHeadingIds(article.content) : "";
 
+  // Split content: intro + quick-answer goes before TOC, rest goes after
+  let contentBeforeToc = contentWithIds;
+  let contentAfterToc = "";
+  const quickAnswerEnd = contentWithIds.indexOf("</div>", contentWithIds.indexOf('class="quick-answer"'));
+  if (quickAnswerEnd !== -1) {
+    const splitPoint = quickAnswerEnd + "</div>".length;
+    contentBeforeToc = contentWithIds.substring(0, splitPoint);
+    contentAfterToc = contentWithIds.substring(splitPoint);
+  }
+
   return (
     <>
       {/* Structured Data */}
@@ -173,11 +183,6 @@ export default async function ArticlePage({ params }: Props) {
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           {article.title}
         </h1>
-        {article.excerpt && (
-          <p className="text-xl text-gray-600 leading-relaxed">
-            {article.excerpt}
-          </p>
-        )}
       </header>
 
       {/* Featured Image */}
@@ -193,16 +198,24 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       )}
 
-      {/* Table of Contents */}
-      {contentWithIds && (
-        <TableOfContents content={contentWithIds} className="mb-8" />
-      )}
-
-      {/* Content */}
-      {contentWithIds && (
+      {/* Content before TOC (intro + quick answer) */}
+      {contentBeforeToc && (
         <div
           className="article-content"
-          dangerouslySetInnerHTML={{ __html: contentWithIds }}
+          dangerouslySetInnerHTML={{ __html: contentBeforeToc }}
+        />
+      )}
+
+      {/* Table of Contents */}
+      {contentWithIds && (
+        <TableOfContents content={contentWithIds} className="my-8" />
+      )}
+
+      {/* Content after TOC (rest of article) */}
+      {contentAfterToc && (
+        <div
+          className="article-content"
+          dangerouslySetInnerHTML={{ __html: contentAfterToc }}
         />
       )}
 
